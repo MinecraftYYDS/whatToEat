@@ -164,7 +164,7 @@ onUnmounted(() => {
   <div class="bg-[#ECE9E2] min-h-screen relative overflow-hidden">
     <Header />
     <div
-      class="inset-0 absolute z-0 opacity-70 bg-overlay"
+      class="inset-0 absolute z-0 opacity-70 bg-overlay bg-[url('/pic/bg2.png')] bg-center"
       :class="{ 'animate-paused': isPlaying }" :style="{ animation: `flow 30s linear infinite` }"
     />
 
