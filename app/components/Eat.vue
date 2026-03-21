@@ -138,7 +138,7 @@ function createFloatingText(text = '') {
     'rgba(200, 200, 200, 0.7)',
   ]
   const sizes = ['0.8rem', '1rem', '1.2rem']
-  const rotate = (Math.random() - 0.5) * 20
+  const rotate = (Math.random() - 0.5) * 12
 
   temp.textContent = text
   temp.className = 'absolute font-medium animate-float-up select-none whitespace-nowrap'
@@ -147,8 +147,8 @@ function createFloatingText(text = '') {
   temp.style.left = `${Math.random() * 80 + 10}%`
   temp.style.top = `${Math.random() * 80 + 10}%`
   temp.style.transform = `rotate(${rotate}deg)`
-  temp.style.filter = 'blur(0.5px)'
-  temp.style.textShadow = '0 0 4px rgba(255,255,255,0.4)'
+  temp.style.filter = 'none'
+  temp.style.textShadow = '0 1px 2px rgba(255,255,255,0.35)'
 
   container.appendChild(temp)
   setTimeout(() => temp.remove(), 1600)
@@ -161,30 +161,29 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <FluidCursor v-if="isPC()" />
-  <div class="bg-[#E9E9E9] min-h-screen relative overflow-hidden">
+  <div class="bg-[#ECE9E2] min-h-screen relative overflow-hidden">
     <Header />
     <div
-      class="bg-[#E9E9E9] bg-[url('/pic/bg2.png')] transition-all inset-0 absolute z-0 bg-center"
-      :class="{ 'animate-paused': isPlaying }" :style="{ animation: `flow 16s linear infinite` }"
+      class="inset-0 absolute z-0 opacity-70 bg-overlay"
+      :class="{ 'animate-paused': isPlaying }" :style="{ animation: `flow 30s linear infinite` }"
     />
 
     <div id="temp_container" class="inset-0 absolute z-10 overflow-hidden" />
 
-    <div class="px-4 flex flex-col min-h-screen items-center justify-center relative z-20">
-      <div class="mb-4 flex flex-wrap gap-3 items-center top-15 justify-center absolute">
-        <div class="flex flex-wrap gap-2 justify-center">
+    <div class="px-4 py-6 sm:py-8 flex flex-col min-h-screen items-center justify-center relative z-20">
+      <div class="w-full max-w-4xl mb-8 sm:mb-10 flex justify-center">
+        <div class="flex flex-wrap gap-2.5 justify-center">
           <button
             key="all"
             type="button"
-            class="text-xs font-medium px-2.5 py-0.5 border rounded-sm inline-flex gap-1 cursor-pointer select-none transition-all items-center"
+            class="text-sm font-medium px-4 py-2 border rounded-lg inline-flex gap-1.5 cursor-pointer select-none transition-all items-center min-h-11"
             :class="getTagColorClasses(-1, isAllSelected)" @click="toggleTag('all')"
           >
             <span>全部</span>
           </button>
           <button
             v-for="(c, index) in categories" :key="c" type="button"
-            class="text-xs font-medium px-2.5 py-0.5 border rounded-sm inline-flex gap-1 cursor-pointer select-none transition-all items-center"
+            class="text-sm font-medium px-4 py-2 border rounded-lg inline-flex gap-1.5 cursor-pointer select-none transition-all items-center min-h-11"
             :class="getTagColorClasses(index, selectedCategories.includes(c))" @click="toggleTag(c)"
           >
             <span v-if="getEmoji(c)">{{ getEmoji(c) }}</span>
@@ -192,9 +191,9 @@ onUnmounted(() => {
           </button>
         </div>
       </div>
-      <div class="text-center w-full -mt-20">
+      <div class="text-center w-full max-w-4xl">
         <h1
-          class="text-[clamp(2rem,5vw,3rem)] text-gray-800 font-normal mb-6 whitespace-nowrap text-ellipsis overflow-hidden"
+          class="text-[clamp(1.8rem,7vw,3.2rem)] text-gray-800 font-normal mb-8 px-2 leading-tight"
           :class="{ 'animate-shake': shakeTitle }"
         >
           <span class="today">今天</span>
@@ -203,7 +202,7 @@ onUnmounted(() => {
           <span class="punctuation">？</span>
         </h1>
 
-        <button id="start" class="outline-none cursor-pointer" @click="togglePlay">
+        <button id="start" class="outline-none cursor-pointer w-full sm:w-auto" @click="togglePlay">
           <FancyButton :text="isPlaying ? '停止' : '开始'" />
         </button>
       </div>
@@ -241,14 +240,12 @@ onUnmounted(() => {
 
 @keyframes flow {
   0% {
-    background-position: 50% 0;
+    background-position: 0% 50%;
   }
 
   100% {
-    background-position: 50% -500px;
+    background-position: 100% 50%;
   }
-
-  /* 半张图高度 */
 }
 
 @keyframes flash {
@@ -332,5 +329,19 @@ onUnmounted(() => {
 
 .animate-paused {
   animation-play-state: paused;
+}
+
+.bg-overlay {
+  background-image:
+    radial-gradient(130% 80% at 20% 10%, rgba(255, 255, 255, 0.52), transparent 55%),
+    radial-gradient(140% 90% at 85% 85%, rgba(201, 214, 255, 0.2), transparent 58%),
+    linear-gradient(180deg, #f6f5f2 0%, #ece9e2 45%, #e6e3db 100%);
+  background-size: 180% 180%;
+}
+
+@media (max-width: 640px) {
+  .animate-float-up {
+    animation-duration: 1.2s;
+  }
 }
 </style>
