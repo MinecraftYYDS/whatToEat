@@ -1,5 +1,5 @@
 export function replaceText(text?: string) {
-  return text?.replace('的做法', '') || '神马'
+  return text?.replace('的做法', '') || '什么'
 }
 
 export function getOriginRecipeLink(source_path?: string) {

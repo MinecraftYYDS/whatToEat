@@ -164,8 +164,8 @@ onUnmounted(() => {
   <div class="bg-[#ECE9E2] min-h-screen relative overflow-hidden">
     <Header />
     <div
-      class="inset-0 absolute z-0 opacity-70 bg-overlay"
-      :class="{ 'animate-paused': isPlaying }" :style="{ animation: `flow 30s linear infinite` }"
+      class="inset-0 absolute z-0 opacity-70 bg-overlay bg-[url('/pic/bg2.png')] bg-center"
+      :class="{ 'animate-paused': isPlaying }" :style="{ animation: `flow 22s linear infinite` }"
     />
 
     <div id="temp_container" class="inset-0 absolute z-10 overflow-hidden" />
@@ -240,11 +240,11 @@ onUnmounted(() => {
 
 @keyframes flow {
   0% {
-    background-position: 0% 50%;
+    background-position: 50% 0;
   }
 
   100% {
-    background-position: 100% 50%;
+    background-position: 50% -420px;
   }
 }
 
@@ -333,10 +333,10 @@ onUnmounted(() => {
 
 .bg-overlay {
   background-image:
-    radial-gradient(130% 80% at 20% 10%, rgba(255, 255, 255, 0.52), transparent 55%),
-    radial-gradient(140% 90% at 85% 85%, rgba(201, 214, 255, 0.2), transparent 58%),
+    radial-gradient(130% 80% at 20% 10%, rgba(255, 255, 255, 0.48), transparent 55%),
+    radial-gradient(140% 90% at 85% 85%, rgba(201, 214, 255, 0.16), transparent 58%),
     linear-gradient(180deg, #f6f5f2 0%, #ece9e2 45%, #e6e3db 100%);
-  background-size: 180% 180%;
+  background-size: auto, auto, 100% 100%;
 }
 
 @media (max-width: 640px) {
