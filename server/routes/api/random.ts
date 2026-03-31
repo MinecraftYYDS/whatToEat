@@ -27,22 +27,25 @@ export default defineEventHandler(async () => {
   // 随机选择一个菜谱
   const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)]
 
+  // 从 link 字段提取 id
+  const recipeId = randomRecipe.link?.split('/').filter(Boolean).pop() || 'unknown'
+
   return {
     success: true,
     data: {
-      id: randomRecipe.id,
+      id: recipeId,
       name: randomRecipe.name,
-      description: randomRecipe.description,
+      description: randomRecipe.description || '',
       category: randomRecipe.category,
-      image_path: randomRecipe.image_path,
+      image_path: randomRecipe.image_path || null,
       source_path: randomRecipe.source_path,
-      difficulty: randomRecipe.difficulty,
-      tags: randomRecipe.tags,
-      prep_time_minutes: randomRecipe.prep_time_minutes,
-      cook_time_minutes: randomRecipe.cook_time_minutes,
-      total_time_minutes: randomRecipe.total_time_minutes,
+      difficulty: randomRecipe.difficulty || 0,
+      tags: randomRecipe.tags || [],
+      prep_time_minutes: randomRecipe.prep_time_minutes || null,
+      cook_time_minutes: randomRecipe.cook_time_minutes || null,
+      total_time_minutes: randomRecipe.total_time_minutes || null,
       // 构建完整的菜谱链接
-      link: `/food/${randomRecipe.id}`,
+      link: `/food/${recipeId}`,
     },
   }
 })
