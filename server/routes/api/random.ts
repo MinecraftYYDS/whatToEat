@@ -14,7 +14,7 @@ async function fetchRecipes(): Promise<Recipe[]> {
   }
 }
 
-export default defineEventHandler(async () => {
+export default defineEventHandler(async (event) => {
   const recipes = await fetchRecipes()
 
   if (recipes.length === 0) {
@@ -24,8 +24,37 @@ export default defineEventHandler(async () => {
     }
   }
 
+  // 获取查询参数
+  const query = getQuery(event)
+  const include = query.category ? String(query.category).split(',') : null
+  const exclude = query.exclude ? String(query.exclude).split(',') : null
+
+  // 根据参数过滤菜谱
+  let filteredRecipes = recipes.filter((recipe) => {
+    // 如果指定了 include 分类，只返回这些分类的菜谱
+    if (include && !include.includes(recipe.category)) {
+      return false
+    }
+    // 如果指定了 exclude 分类，排除这些分类的菜谱
+    if (exclude && exclude.includes(recipe.category)) {
+      return false
+    }
+    return true
+  })
+
+  if (filteredRecipes.length === 0) {
+    return {
+      success: false,
+      message: '没有符合条件的菜谱',
+      filters: {
+        include,
+        exclude,
+      },
+    }
+  }
+
   // 随机选择一个菜谱
-  const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)]
+  const randomRecipe = filteredRecipes[Math.floor(Math.random() * filteredRecipes.length)]
 
   // 从 link 字段提取 id
   const recipeId = randomRecipe.link?.split('/').filter(Boolean).pop() || 'unknown'
