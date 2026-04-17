@@ -2,7 +2,7 @@
 
 > 今天吃什么？的决策工具，帮助你快速选择合适的菜谱。
 
-<img src="./public/og-image.png" alt="License"> 
+<img src="./public/og-image.png" alt="License">
 
 ## 项目介绍
 
